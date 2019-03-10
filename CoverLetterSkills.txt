@@ -1,0 +1,5 @@
+hardware	programming	Kicad	Solidworks	laser cutting	AVR programming
+I have a keen interest in hardware development and programming and would like to take this interest to the next level. Just this year I have built a mechanical computer keyboard, gaining several experiences from conceptualising the case in Solidworks, to designing the circuit board in Kicad, to laser cutting the case, soldering the components together and finally the AVR programming required for the microchip on the teensy to function.
+socially conscious	leadership	teaching	team player
+I also feel strongly the need to give back to society and improve the lives of others. In January this year, I went on an overseas community service trip to Myanmar, where we helped to build roads and teach students. I was tasked to lead a team of four to teach 100 students there about world affairs, and at the same time incorporate lessons on the proper use of grammar in sentences.
+
