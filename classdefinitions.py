@@ -1,5 +1,7 @@
 import datetime
 import docx
+import pickle
+import traceback
 
 now = datetime.datetime.now()
 
@@ -10,6 +12,9 @@ class Base(object):
         
     def get_root(self):
         return self.root
+    
+    def get_parent(self):
+        return self.parent
 
 class Personal_Details(Base):
     def __init__(self):
@@ -33,6 +38,10 @@ class Cover_Letter(Base):
         self.ClosingParagraph = 'I believe that my self-driven attitude, my ability to work in a team, and my passion of hardware and software development will be beneficial to Entropica Labs, and I do hope you consider me for an internship position.'
 
 class Additional_Information(Base):
+    def __init__(self):
+        self.Information = []
+        for i in range(0,8):
+            self.Information.append('Additional_Information' + str(i))
     pass
 
 class Overarching_Theme(Base):
@@ -43,11 +52,11 @@ class Overarching_Theme(Base):
     def add_individual_project(self,IndividualProject):
         self.IndividualProjects.append(IndividualProject)
         
-class Individual_Projects(Base):
+class Individual_Project(Base):
     def __init__(self):
         self.CompanyWorked = 'Place experience was attained eg. SUTD'
         self.Country = 'Country where experience was gained'
-        self.Jobscope = 'What did you do, eg. Student'
+        self.JobScope = 'What did you do, eg. Student'
         self.TimePeriodWorked = 'Period Spent Working in the Job'
         self.ExperiencePoints = ['Got 3.1 GPA','something else','something else', 'something else', 'something else']
 
@@ -86,17 +95,17 @@ class ResumeDocument(Base):
             self.document.element.body.append(element)
         pass
     
-    def individual_project_adder(self,JobScope,Country,TimePeriodWorked,CompanyWorked,ExperiencePoints):
+    def individual_project_adder(self,IndividualProjectType):
         Output = docx.Document('Individual Projects Template.docx')
         for para in Output.paragraphs:
             #print(para.text)
             for run in para.runs:
                 #print(run.text)
-                run.text = run.text.format(JobScope = JobScope,
-                                           Country = Country,
-                                           TimePeriodWorked = TimePeriodWorked,
-                                           CompanyWorked = CompanyWorked,
-                                           ExperiencePoints = ExperiencePoints)
+                run.text = run.text.format(JobScope = IndividualProjectType.JobScope,
+                                           Country = IndividualProjectType.Country,
+                                           TimePeriodWorked = IndividualProjectType.TimePeriodWorked,
+                                           CompanyWorked = IndividualProjectType.CompanyWorked,
+                                           ExperiencePoints = IndividualProjectType.ExperiencePoints)
                 if run.text == '':
                     #Delete Paragraph Code
                     p = para._element
@@ -104,13 +113,13 @@ class ResumeDocument(Base):
                     p._p = p.element = None
         self.document_combiner(Output)
         
-    def overarching_theme_adder(self,OverarchingTheme):
+    def overarching_theme_adder(self,OverarchingThemeType):
         Output = docx.Document('Overarching Theme Template.docx')
         for para in Output.paragraphs:
             #print(para.text)
             for run in para.runs:
                 #print(run.text)
-                run.text = run.text.format(OverarchingTheme = OverarchingTheme)
+                run.text = run.text.format(OverarchingTheme = OverarchingThemeType.OverarchingTheme)
         self.document_combiner(Output)
         
     def additional_information_adder(self,AdditionalInformation):
@@ -143,34 +152,69 @@ class Company_Application(Base):
 #The Class File to end all classes
 class Master_Class(Base):
     def __init__(self):
-        Base.root = self
-        self.personal_details = Personal_Details()
-        self.current_date = Current_Date()
-        self.company_applications = {}
-        #Additional info, skills para, overarchging themes and individual projects need to be implemented
-        self.additional_information = []
-        self.skills_paragraphs = []
-        self.overarching_theme = []
+        
+        #set name from variable name. http://stackoverflow.com/questions/1690400/getting-an-instance-name-inside-class-init
+        (filename,line_number,function_name,text)=traceback.extract_stack()[-2]
+        def_name = text[:text.find('=')].strip()
+        self.name = def_name
+
+        try:
+            self.load()
+        
+        except:
+            print('error loading, now creating new')
+            Base.root = self
+            self.personal_details = Personal_Details()
+            self.current_date = Current_Date()
+            self.company_applications = {}
+            #Additional info, skills para, overarchging themes and individual projects need to be implemented
+            self.additional_information = []
+            self.skills_paragraphs = []
+            self.overarching_theme = []
+            print('defaults loaded')
+
+            self.save()
         
     def add_company(self,CompanyName):
         if CompanyName not in self.company_applications:
             Name = CompanyName
             Company = Company_Application(CompanyName)
             self.company_applications[Name] = Company
+        else:
+            pass
             
+    def save(self):
+        print('saving' + self.name)
+        #save class as self.name.pickle
+        file = open(self.name+'.pickle','wb')
+        pickle.dump(self.__dir__(),file)
+        file.close()           
+        
+    def load(self):
+        
+        #try load self.name.txt
+        file = open(self.name+'.pickle','rb')      
+        self.__dir__ = pickle.load(file)
+        file.close()     
+        print('loaded' + self.name)
 
         
 
         
-philip = Master_Class()
+
 Shan = Master_Class()
+print(Shan.__dir__)
+
+OverarchingTheme1 = Overarching_Theme()
+IndividualProject1 = Individual_Project()
+AdditionalInformation = Additional_Information()
 
 
 Shan.add_company('gay')
 #print(Shan.company_applications['gay'].resume.overarching_theme[0].Country)
 #Shan.company_applications['gay'].resume_document.document_combiner(docx.Document('Additional Information Template.docx'))
-Shan.company_applications['gay'].resume_document.overarching_theme_adder('Education')
-Shan.company_applications['gay'].resume_document.individual_project_adder('JobScope','Country','TimePeriodWorked','CompanyWorked',['ExperiencePoints','','','',''])
-Shan.company_applications['gay'].resume_document.additional_information_adder(['ExperiencePoints','Solidworks','SolidAss','','','','',''])
+Shan.company_applications['gay'].resume_document.overarching_theme_adder(OverarchingTheme1)
+Shan.company_applications['gay'].resume_document.individual_project_adder(IndividualProject1)
+Shan.company_applications['gay'].resume_document.additional_information_adder(AdditionalInformation.Information)
 Shan.company_applications['gay'].resume_document.output_resume()
 print(Shan.company_applications['gay'].resume_document.getText())
