@@ -1,0 +1,58 @@
+<PersonalDetails>
+
+    name:name
+    mobileNo:mobileNo
+    personalEmail:personalEmail
+    internshipOrJob:internshipOrJob
+    availableTimePeriod:availableTimePeriod
+
+    GridLayout:
+        cols:1
+        size: root.width, root.height
+        
+        Label:
+            text:'Personal Details'
+        
+        GridLayout:
+            cols:2
+            
+            Label:
+                text:'Full Name'
+                
+            TextInput:
+                id:name
+                multiline:False
+            
+            Label:
+                text:'Mobile Number'
+                
+            TextInput:
+                id:mobileNo
+                multiline:False
+                
+            Label:
+                text:'Personal Email'
+                
+            TextInput:
+                id:personalEmail
+                multiline:False
+                
+            Label:
+                text:'Internship Or Job'
+                
+            Button:
+                id:internshipOrJob
+                text:'Internship'
+                on_press:root.toggleJob()
+            
+            Label:
+                text:'Available Time Period'
+                
+            TextInput:
+                id:availableTimePeriod
+                multiline:False
+            
+
+        Button:
+            text:'Submit Personal Details'
+            on_press:root.savePersonalDetails()

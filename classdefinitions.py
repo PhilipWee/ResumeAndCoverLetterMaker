@@ -157,23 +157,23 @@ class Master_Class(Base):
         (filename,line_number,function_name,text)=traceback.extract_stack()[-2]
         def_name = text[:text.find('=')].strip()
         self.name = def_name
+#
+#        try:
+#            self.load()
+#        
+#        except:
+#            print('error loading, now creating new')
+        Base.root = self
+        self.personal_details = Personal_Details()
+        self.current_date = Current_Date()
+        self.company_applications = {}
+        #Additional info, skills para, overarchging themes and individual projects need to be implemented
+        self.additional_information = []
+        self.skills_paragraphs = []
+        self.overarching_theme = []
+        print('defaults loaded')
 
-        try:
-            self.load()
-        
-        except:
-            print('error loading, now creating new')
-            Base.root = self
-            self.personal_details = Personal_Details()
-            self.current_date = Current_Date()
-            self.company_applications = {}
-            #Additional info, skills para, overarchging themes and individual projects need to be implemented
-            self.additional_information = []
-            self.skills_paragraphs = []
-            self.overarching_theme = []
-            print('defaults loaded')
-
-            self.save()
+#            self.save()
         
     def add_company(self,CompanyName):
         if CompanyName not in self.company_applications:
@@ -183,24 +183,38 @@ class Master_Class(Base):
         else:
             pass
             
-    def save(self):
-        print('saving' + self.name)
-        #save class as self.name.pickle
-        file = open(self.name+'.pickle','wb')
-        pickle.dump(self.__dir__(),file)
-        file.close()           
-        
-    def load(self):
-        
-        #try load self.name.txt
-        file = open(self.name+'.pickle','rb')      
-        self.__dir__ = pickle.load(file)
-        file.close()     
-        print('loaded' + self.name)
+#    def save(self):
+#        print('saving' + self.name)
+#        #save class as self.name.pickle
+#        file = open(self.name+'.pickle','wb')
+#        pickle.dump(self.__dir__(),file)
+#        file.close()           
+#        
+#    def load(self):
+#        
+#        #try load self.name.txt
+#        file = open(self.name+'.pickle','rb')      
+#        self.__dir__ = pickle.load(file)
+#        file.close()     
+#        print('loaded' + self.name)
 
         
-
-        
+def save_individual(class_obj):
+    print('saving' + class_obj.name)
+    #save class as self.name.pickle
+    file = open(class_obj.name+'.pickle','wb')
+    pickle.dump(class_obj,file)
+    file.close()           
+    
+def load_individual(class_obj):
+    
+    #try load self.name.txt
+    file = open(class_obj.name+'.pickle','rb')      
+    class_obj = pickle.load(file)
+    file.close()     
+    print('loaded' + class_obj.name)
+    return class_obj
+    
 
 Shan = Master_Class()
 print(Shan.__dir__)
@@ -217,4 +231,5 @@ Shan.company_applications['gay'].resume_document.overarching_theme_adder(Overarc
 Shan.company_applications['gay'].resume_document.individual_project_adder(IndividualProject1)
 Shan.company_applications['gay'].resume_document.additional_information_adder(AdditionalInformation.Information)
 Shan.company_applications['gay'].resume_document.output_resume()
+save_individual(Shan)
 print(Shan.company_applications['gay'].resume_document.getText())

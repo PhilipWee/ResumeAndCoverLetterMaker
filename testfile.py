@@ -3,20 +3,9 @@ import pickle
 class Gaylord(object):
     def __init__(self):
         self.Gay = gay()
-        self.load()
         
-    def load(self):
-        gaylist = open('gaylist.pickle', 'rb')
-        self = pickle.load(gaylist)
-        gaylist.close()
-        
-    def save(self):
-        ShanKai = Gaylord()
-        ShanKai.Gay.gayness = 2000
-        gaylist = open('gaylist.pickle', 'wb')
-        pickle.dump(ShanKai,gaylist)
-        gaylist.close()
-        
+    def print_gayness(self):
+        print(str(self.Gay.gayness))
         
         
 class gay(object):
@@ -33,5 +22,5 @@ ShanKai = Gaylord()
 #ShanKai = pickle.load(gaylist)
 #gaylist.close()
 
-print(ShanKai.Gay.gayness)
+ShanKai.print_gayness
 del ShanKai
