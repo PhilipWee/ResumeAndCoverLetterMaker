@@ -17,6 +17,7 @@
             cols:2
             
             Label:
+                
                 text:'Full Name'
                 
             TextInput:
@@ -56,3 +57,46 @@
         Button:
             text:'Submit Personal Details'
             on_press:root.savePersonalDetails()
+            
+
+
+<IndividualProjects>:
+    gridLayout:gridLayout
+    
+    
+    GridLayout:
+        scrollView:scrollView
+    
+        id:gridLayout
+        size: root.width, root.height
+        cols:1
+        
+        ScrollView:
+            size_hint:1,None
+            gridLayoutInner:gridLayoutInner
+            id:scrollView
+            
+            GridLayout:
+                id:gridLayoutInner
+                cols:1
+
+        GridLayout:
+            cols:2
+            
+            Label:
+                text:'Overarching theme for new project'
+            
+            TextInput:
+                multiline:False
+                
+            Label:
+                text:'Details of Individual Project'
+            
+            TextInput:
+                multiline:True
+            
+            Label:
+                text:''
+            
+            Button:
+                text:'Add Individual Project'

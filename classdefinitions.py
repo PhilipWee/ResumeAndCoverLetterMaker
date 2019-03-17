@@ -18,7 +18,12 @@ class Base(object):
 
 class Personal_Details(Base):
     def __init__(self):
-        self.Name = 'Name'
+        #set name from variable name. http://stackoverflow.com/questions/1690400/getting-an-instance-name-inside-class-init
+        (filename,line_number,function_name,text)=traceback.extract_stack()[-2]
+        def_name = text[:text.find('=')].strip()
+        self.name = def_name
+        
+        self.FullName = 'Name'
         self.MobileNo = 'MobileNo'
         self.PersonalEmail = 'PersonalEmail'
         self.InternshipOrJob = 'InternshipOrJob'
@@ -44,16 +49,19 @@ class Additional_Information(Base):
             self.Information.append('Additional_Information' + str(i))
     pass
 
-class Overarching_Theme(Base):
-    def __init__(self):
-        self.OverarchingTheme = 'Overarching Theme eg. Education'
-        self.IndividualProjects = []
-    
-    def add_individual_project(self,IndividualProject):
-        self.IndividualProjects.append(IndividualProject)
+#class Overarching_Theme(Base):
+#    def __init__(self):
+#        (filename,line_number,function_name,text)=traceback.extract_stack()[-2]
+#        def_name = text[:text.find('=')].strip()
+#        self.OverarchingTheme = def_name
+#        self.IndividualProjects = []
+#    
+#    def add_individual_project(self,IndividualProject):
+#        self.IndividualProjects.append(IndividualProject)
         
 class Individual_Project(Base):
     def __init__(self):
+        self.OverarchingTheme = 'Overarching Theme'
         self.CompanyWorked = 'Place experience was attained eg. SUTD'
         self.Country = 'Country where experience was gained'
         self.JobScope = 'What did you do, eg. Student'
@@ -199,37 +207,43 @@ class Master_Class(Base):
 #        print('loaded' + self.name)
 
         
-def save_individual(class_obj):
-    print('saving' + class_obj.name)
-    #save class as self.name.pickle
-    file = open(class_obj.name+'.pickle','wb')
-    pickle.dump(class_obj,file)
-    file.close()           
+#def save_individual(class_obj):
+#    print('saving ' + class_obj.name)
+#    #save class as self.name.pickle
+#    file = open(class_obj.name+'.pickle','wb')
+#    pickle.dump(class_obj,file)
+#    file.close()           
+#    
+#def load_individual(file_name_without_extension):
+#    
+#    #try load self.name.txt
+#    file = open(file_name_without_extension+'.pickle','rb')      
+#    class_obj = pickle.load(file)
+#    file.close()     
+#    print('loaded ' + class_obj.name)
+#    Base.root = class_obj
+#    return class_obj
     
-def load_individual(class_obj):
-    
-    #try load self.name.txt
-    file = open(class_obj.name+'.pickle','rb')      
-    class_obj = pickle.load(file)
-    file.close()     
-    print('loaded' + class_obj.name)
-    return class_obj
-    
+#Shang = load_individual('Shang')
 
-Shan = Master_Class()
-print(Shan.__dir__)
+#Shang = Master_Class()
+#print(Shang.__dir__)
+#save_individual(Shang)
 
-OverarchingTheme1 = Overarching_Theme()
-IndividualProject1 = Individual_Project()
-AdditionalInformation = Additional_Information()
-
-
-Shan.add_company('gay')
-#print(Shan.company_applications['gay'].resume.overarching_theme[0].Country)
-#Shan.company_applications['gay'].resume_document.document_combiner(docx.Document('Additional Information Template.docx'))
-Shan.company_applications['gay'].resume_document.overarching_theme_adder(OverarchingTheme1)
-Shan.company_applications['gay'].resume_document.individual_project_adder(IndividualProject1)
-Shan.company_applications['gay'].resume_document.additional_information_adder(AdditionalInformation.Information)
-Shan.company_applications['gay'].resume_document.output_resume()
-save_individual(Shan)
-print(Shan.company_applications['gay'].resume_document.getText())
+#
+#OverarchingTheme1 = Overarching_Theme()
+#IndividualProject1 = Individual_Project()
+#AdditionalInformation = Additional_Information()
+##
+##
+#Shang.add_company('gay')
+##print(Shan.company_applications['gay'].resume.overarching_theme[0].Country)
+##Shan.company_applications['gay'].resume_document.document_combiner(docx.Document('Additional Information Template.docx'))
+#Shang.company_applications['gay'].resume_document.overarching_theme_adder(OverarchingTheme1)
+#Shang.company_applications['gay'].resume_document.individual_project_adder(IndividualProject1)
+#Shang.company_applications['gay'].resume_document.additional_information_adder(AdditionalInformation.Information)
+#Shang.company_applications['gay'].resume_document.output_resume()
+#
+#save_individual(Shang)
+#
+#print(Shang.company_applications['gay'].resume_document.getText())
