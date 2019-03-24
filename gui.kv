@@ -1,0 +1,116 @@
+<ScreenManagement>:
+    HomeScreen:
+        id: homeScreen
+    PersonalDetails:
+        id: personalDetails
+
+<HomeScreen>:
+    name: 'homeScreen'
+    
+    GridLayout:
+        cols:1
+        padding:10
+        spacing:10
+        
+        Button:
+            text: 'Edit Personal Details'
+            on_release: app.root.current = 'personalDetails'
+            
+        Button:
+            text: 'Edit Invidual Projects'
+        
+        Button:
+            text: 'Edit Skills Paragraphs'
+        
+        Button:
+            text: 'Edit Additional Information'
+        
+        Button:
+            text: 'New Company Application'
+
+<CustomDropDown>:
+    Button:
+        text: 'My first Item'
+        size_hint_y: None
+        height: 44
+        on_release: root.select('item1')
+    Label:
+        text: 'Unselectable item'
+        size_hint_y: None
+        height: 44
+    Button:
+        text: 'My second Item'
+        size_hint_y: None
+        height: 44
+        on_release: root.select('item2')
+
+<personalDetails>:
+    name: 'personalDetails'
+    
+    GridLayout:
+        rows:2
+        padding: 10
+        
+        GridLayout:
+            cols:2
+            size_hint_y: 5   
+            
+            Label:
+                size_hint_x: 3
+        
+            TextInput:
+                size_hint_x: 7
+                text:''
+                multiline: False
+                
+            Label:
+                size_hint_x: 3
+                text:'Mobile Number'
+            
+            TextInput:
+                size_hint_x: 7
+                text:''
+                multiline: False
+                
+            Label:
+                size_hint_x: 3
+                text:'Personal Email'
+            
+            TextInput:
+                size_hint_x: 7
+                text:''
+                multiline: False
+                
+            Label:
+                size_hint_x: 3
+                text:'Internship Or Job'
+            
+            Button:
+                text:'selection'
+                
+            Label:
+                size_hint_x: 3
+                text:'Available Time Period'
+            
+            TextInput:
+                size_hint_x: 7
+                text:''
+                multiline: False    
+                   
+        GridLayout:
+            cols:3
+            size_hint_y: 1
+            padding:10
+            
+            Button:
+                text:'load last save'
+            
+            Button:
+                text:'save current'
+            
+            Button:
+                text:'Back to Main Menu'
+                on_release: app.root.current = 'homeScreen'
+        
+    
+    
